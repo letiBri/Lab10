@@ -34,9 +34,9 @@ class Controller:
         self._view._txt_result.controls.append(ft.Text("Di seguito il dettaglio sui nodi: "))
         for stato in lista:
             self._view._txt_result.controls.append(ft.Text(f"{stato}"))
-        self._view._ddStato.disabled = False
+        self._view._ddStato.disabled = False  # abilito i tasti per il punto successivo
         self._view._btnRaggiungibili.disabled = False
-        self.fillDDStato(grafo)
+        self.fillDDStato(grafo)  # riempio il dropdown quando ho creato il grafo, in modo da mettere solo gli stati appartenenti ai nodi del grafo
         self._view.update_page()
         return
 
@@ -52,12 +52,12 @@ class Controller:
         self._view._txt_result.controls.clear()
         statoScelto = self._ddCountryValue
         if statoScelto is None:
-            self._view.create_alert("Inserire un stato!")
+            self._view.create_alert("Inserire uno stato!")
             self._view.update_page()
             return
         listaRaggiungibili, lunghezza = self._model.getNodiRaggiungibili(statoScelto)
         if lunghezza == 0:
-            self._view._txt_result.controls.append(ft.Text(f"Non ci sono stati raggiungibili, probabilmente hai selezionato un'isola!"))
+            self._view._txt_result.controls.append(ft.Text("Non ci sono stati raggiungibili, probabilmente hai selezionato un'isola!"))
             self._view.update_page()
             return
         self._view._txt_result.controls.append(ft.Text(f"I nodi raggiungibili da {statoScelto} sono {lunghezza}:"))

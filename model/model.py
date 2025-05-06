@@ -9,21 +9,21 @@ class Model:
         self._countries = DAO.getAllCountries()
         self._idMap = {}
         for c in self._countries:
-            self._idMap[c.CCode] = c
-        self._grafo = nx.Graph()
+            self._idMap[c.CCode] = c  # faccio la iddMap dove associo al codice dello Stato, l'oggetto Stato
+        self._grafo = nx.Graph()  # creo il grafo non orientato e non pesato
 
     def buildGraph(self, anno):
-        listaStatiEsistenti = DAO.getCountriesAnno(anno)
+        listaStatiEsistenti = DAO.getCountriesAnno(anno)  # salvo solo gli i codici degli stati con i collegamenti per quell'anno
         for code in listaStatiEsistenti:
-            self._grafo.add_node(self._idMap[code])
-        listaTupleArchi = DAO.getAllEdges(anno)
+            self._grafo.add_node(self._idMap[code])  # aggiungo i nodi al grafo, accedendo all'oggetto Stato attraverso la idMap
+        listaTupleArchi = DAO.getAllEdges(anno)  # salvo i collegamenti terreni, quindi filtro il conttype = 1
         for tupla in listaTupleArchi:
             self._grafo.add_edge(self._idMap[tupla[0]], self._idMap[tupla[1]])
         #print(len(self._grafo.nodes))
         #print(len(self._grafo.edges))
-        dizGradiStati = self.getGradoNodes()
+        listaGradiStati = self.getGradoNodes()
         numCompConnesse = self.getCompConnesse()
-        return self._grafo, dizGradiStati, numCompConnesse
+        return self._grafo, listaGradiStati, numCompConnesse
 
     def getGradoNodes(self):
         result = {}
@@ -41,7 +41,7 @@ class Model:
         return len(conn)
 
     def getNodiRaggiungibili(self, source):
-        conn = nx.node_connected_component(self._grafo, source)
+        conn = nx.node_connected_component(self._grafo, source) # utilizzo i metodi di networkX per trovare la componente connessa partendo da source
         conn.remove(source)
         return conn, len(conn)
 

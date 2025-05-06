@@ -13,7 +13,10 @@ class View(ft.UserControl):
         self._controller = None
         # graphical elements
         self._title = None
-
+        self._txtAnno = None
+        self._btnCalcola = None
+        self._ddStato = None
+        self._btnRaggiungibili = None
         self._txt_result = None
 
     def load_interface(self):
