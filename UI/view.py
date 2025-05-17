@@ -25,13 +25,13 @@ class View(ft.UserControl):
         self._page.controls.append(self._title)
 
         #ROW with controls
-        self._txtAnno = ft.TextField(label="Anno")
-        self._btnCalcola = ft.ElevatedButton(text="Calcola Confini", on_click=self._controller.handleCalcola)
+        self._txtAnno = ft.TextField(label="Anno", width=400)
+        self._btnCalcola = ft.ElevatedButton(text="Calcola Confini", on_click=self._controller.handleCalcola, width=250)
         row1 = ft.Row([self._txtAnno, self._btnCalcola], alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
 
-        self._ddStato = ft.Dropdown(label="Stato", disabled=True)
-        self._btnRaggiungibili = ft.ElevatedButton(text="Calcola raggiungibili", on_click=self._controller.handleRaggiungibili, disabled=True)
+        self._ddStato = ft.Dropdown(label="Stato", disabled=True, width=400)
+        self._btnRaggiungibili = ft.ElevatedButton(text="Calcola raggiungibili", on_click=self._controller.handleRaggiungibili, disabled=True, width=250)
         row2 = ft.Row([self._ddStato, self._btnRaggiungibili], alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row2)
 

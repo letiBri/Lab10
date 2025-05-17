@@ -49,20 +49,34 @@ class Controller:
         self._ddCountryValue = e.control.data
 
     def handleRaggiungibili(self, e):
+        # modo 1
+        # listaRaggiungibili, lunghezza =self._model.getNodiRaggiungibili(self._ddCountryValue)
+        # modo 2 ricorsione
+        # listaConn=self._model.calcolaComponenteConnessaRicorsione(self._ddCountryValue)
+        # modo 3 iterativo
+        # listaConn = self._model.componenteConnessaIterativa(self._ddCountryValue)
+
         self._view._txt_result.controls.clear()
         statoScelto = self._ddCountryValue
         if statoScelto is None:
             self._view.create_alert("Inserire uno stato!")
             self._view.update_page()
             return
-        listaRaggiungibili, lunghezza = self._model.getNodiRaggiungibili(statoScelto)
-        if lunghezza == 0:
+
+        # listaRaggiungibili, lunghezza = self._model.getNodiRaggiungibili(statoScelto)  # modo 1
+
+        # listaRaggiungibili = self._model.calcolaComponenteConnessaRicorsione(self._ddCountryValue)  # modo 2, ne perde uno da qualche parte
+        # listaRaggiungibili.remove(statoScelto)
+
+        listaRaggiungibili = self._model.componenteConnessaIterativa(self._ddCountryValue)  # modo 3
+
+        if len(listaRaggiungibili) == 0:
             self._view._txt_result.controls.append(ft.Text("Non ci sono stati raggiungibili, probabilmente hai selezionato un'isola!"))
             self._view.update_page()
             return
-        self._view._txt_result.controls.append(ft.Text(f"I nodi raggiungibili da {statoScelto} sono {lunghezza}:"))
+        self._view._txt_result.controls.append(ft.Text(f"I nodi raggiungibili da {statoScelto} sono {len(listaRaggiungibili)}. Ecco l'elenco dei nodi raggiungibili: "))
         for state in listaRaggiungibili:
-            self._view._txt_result.controls.append(ft.Text(f"{state}"))
+            self._view._txt_result.controls.append(ft.Text(state))
         self._view.update_page()
         return
 
